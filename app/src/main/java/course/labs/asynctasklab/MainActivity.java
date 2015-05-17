@@ -40,7 +40,7 @@ public class MainActivity extends Activity implements SelectionListener,
 	private FeedFragment mFeedFragment;
 	private DownloaderTaskFragment mDownloaderFragment;
 	private boolean mIsInteractionEnabled;
-	private String[] mFormattedFeeds = new String[sRawTextFeedIds.size()];;
+	private String[] mFormattedFeeds = new String[sRawTextFeedIds.size()];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -26,21 +27,13 @@ public class DownloaderTaskFragment extends Fragment {
 
 		// Preserve across reconfigurations
 		setRetainInstance(true);
-		
-		// TODO: Create new DownloaderTask that "downloads" data
 
-        
+		Bundle args = getArguments();
+		List<Integer> friendsLists  = args.getIntegerArrayList("friends");
+		Integer[] friends = friendsLists.toArray(new Integer[friendsLists.size()]);
 		
-		// TODO: Retrieve arguments from DownloaderTaskFragment
-		// Prepare them for use with DownloaderTask. 
-
-        
-        
-        
-		// TODO: Start the DownloaderTask 
-		
-        
-
+		DownloaderTask downloaderTask = new DownloaderTask();
+		downloaderTask.execute(friends);
 	}
 
 	// Assign current hosting Activity to mCallback
@@ -68,25 +61,19 @@ public class DownloaderTaskFragment extends Fragment {
 		mCallback = null;
 	}
 
-	// TODO: Implement an AsyncTask subclass called DownLoaderTask.
-	// This class must use the downloadTweets method (currently commented
-	// out). Ultimately, it must also pass newly available data back to 
-	// the hosting Activity using the DownloadFinishedListener interface.
+	public class DownloaderTask extends AsyncTask<Integer, Void, String[]>
+	{
+		@Override
+		protected String[] doInBackground(Integer... params) {
+			return downloadTweets(params);
+		}
 
-//	public class DownloaderTask extends ... {
-	
+		@Override
+		protected void onPostExecute(String[] strings) {
+			mCallback.notifyDataRefreshed(strings);
+		}
 
-    
-    
-    
-    
-    
-    
-    
-        // TODO: Uncomment this helper method
 		// Simulates downloading Twitter data from the network
-
-        /*
          private String[] downloadTweets(Integer resourceIDS[]) {
 			final int simulatedDelay = 2000;
 			String[] feeds = new String[resourceIDS.length];
@@ -124,14 +111,5 @@ public class DownloaderTaskFragment extends Fragment {
 
 			return feeds;
 		}
-         */
-
-
-    
-    
-    
-    
-    
-    
-
+	}
 }
